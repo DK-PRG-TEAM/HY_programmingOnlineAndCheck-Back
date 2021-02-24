@@ -20,12 +20,10 @@ class User(db.Model):
     username = db.Column(db.String(255), unique=True, nullable=False, comment="用户名(可用于登录)")  # username:唯一 不为空
     hasUsername = db.Column(db.Boolean, nullable=False, default=False, comment="是否存在用户名")  # hasUsername: 不为空 默认为否
     # 用户手机号
-    hasTelephone = db.Column(db.Boolean, default=False, comment="是否存在手机号")
     telephone = db.Column(db.String(255), unique=True, comment="用户手机号")
+    hasTelephone = db.Column(db.Boolean, default=False, comment="是否存在手机号")
 
     # -----用户其他信息-----
-    # 用户资料
-    nickname = db.Column(db.String(255), nullable=False, default="default_nickname", comment="用户昵称")  # nickname:不为空
     # 安全相关
     user_last_login_ip = db.Column(db.String(255), comment="用户最后登录IP")
     # 时间相关
@@ -35,6 +33,9 @@ class User(db.Model):
     hasToken = db.Column(db.Boolean, nullable=False, default=False, comment="是否存在token")
     token = db.Column(db.String(255), comment="用户Token")
     user_token_create_time = db.Column(db.DateTime, comment="用户Token创建时间")
+    # 用户资料
+    nickname = db.Column(db.String(255), nullable=False, default="unset_nickname", comment="用户昵称")  # nickname:不为空
+    avatar_images_url = db.Column(db.String(255), nullable=False, default="unset_avatar", comment="用户头像url")
 
     def __init__(self, email, password):
         self.__initBaseInfo(email)

@@ -4,20 +4,20 @@ from datetime import datetime
 
 
 class Response_base_class:
-    code = None
-    msg = None
-    timestamp = None
+    code = int
+    msg = str
+    timestamp = str
 
-    def __init__(self, code, msg, timestamp):
+    def __init__(self, code: int, msg: str, timestamp: str):
         self.code = code
         self.msg = msg
         self.timestamp = timestamp
 
 
 class Response_succeed_class(Response_base_class):
-    data = None
+    data = object
 
-    def __init__(self, code, msg, data, timestamp):
+    def __init__(self, code: int, msg: str, data: object, timestamp: str):
         super().__init__(code, msg, timestamp)
         self.data = data
         return
@@ -25,12 +25,12 @@ class Response_succeed_class(Response_base_class):
 
 class Response_failed_class(Response_base_class):
 
-    def __init__(self, code, msg, timestamp):
+    def __init__(self, code: int, msg: str, timestamp: str):
         super().__init__(code, msg, timestamp)
         return
 
 
-def response_succeed(object_data):
+def response_succeed(object_data: object = None):
     """
     返回请求正确的请求
     :param object_data: 对象类型的数据
@@ -47,13 +47,13 @@ def response_succeed(object_data):
                                                    msg="成功",
                                                    timestamp=str(datetime.now()))
     response = make_response(
-        json.dumps(response_data_object.__dict__, sort_keys=True, indent=4, separators=(',', ': '), ), 200
+        json.dumps(response_data_object.__dict__, sort_keys=False, indent=4, separators=(',', ': '), ), 200
     )
     response.headers["Content-Type"] = "application/json"
     return response
 
 
-def response_failed(code, msg):
+def response_failed(code: int, msg: str):  # TODO: 现在先凑合用, 未来有时间了再用更抽象的
     """
     返回请求错误的请求
     :param code: 错误代码
@@ -68,3 +68,20 @@ def response_failed(code, msg):
     )
     response.headers["Content-Type"] = "application/json"
     return response
+
+# def response_failed(Code): # TODO:未来有时间了再用更抽象的
+#     """
+#     返回请求错误的请求
+#     :param Code: Code对象
+#     :param msg: 错误信息
+#     :return: make_response创建的对象
+#     """
+#     response_data_object = Response_failed_class(code=Code.code,
+#                                                  msg=Code.message,
+#                                                  timestamp=str(datetime.now()))
+#     # TODO:应该甩一个log, 内容为DevInfo
+#     response = make_response(
+#         json.dumps(response_data_object.__dict__, sort_keys=True, indent=4, separators=(',', ': '), ), 400
+#     )
+#     response.headers["Content-Type"] = "application/json"
+#     return response
