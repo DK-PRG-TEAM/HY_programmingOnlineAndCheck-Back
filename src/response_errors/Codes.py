@@ -1,5 +1,5 @@
-from src2.response_errors.CodeClass import Code
-from src2.response_errors.StatusCode import *
+from src.response_errors.CodeClass import Code
+from src.response_errors.StatusCode import *
 # 通用
 OK                          = Code(code=0, devInfo="成功", msg="成功", status=StatusOK, moreInfo="")
 Failed                      = Code(code=1, devInfo="失败", msg="失败", status=StatusInternalServerError, moreInfo="")

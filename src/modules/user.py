@@ -1,4 +1,4 @@
-from src2 import db
+from src import db
 from datetime import datetime
 
 Base = db.Model

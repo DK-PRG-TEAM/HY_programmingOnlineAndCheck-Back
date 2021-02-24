@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-from src2.views import userBlueprint
+from src.views import userBlueprint
 
 
 def create_app():

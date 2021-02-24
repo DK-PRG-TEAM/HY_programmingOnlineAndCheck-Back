@@ -28,7 +28,7 @@ def verify_token(token: str):
 
 
 import functools
-from src2.modules.response import response_failed
+from src.modules.response import response_failed
 
 
 def user_login_required(view_func):

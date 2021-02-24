@@ -1,12 +1,12 @@
 from flask import Blueprint, request, render_template, make_response, current_app
-from src2 import db
-from src2.modules import User
+from src import db
+from src.modules import User
 import json
 import re
-from src2.modules.response import response_succeed, response_failed
-from src2.uniti.common.token import creat_token, verify_token
+from src.modules.response import response_succeed, response_failed
+from src.uniti.common.token import creat_token, verify_token
 from datetime import datetime
-from src2.uniti.common.token import user_login_required
+from src.uniti.common.token import user_login_required
 
 userBlueprint = Blueprint("user", __name__)
 
