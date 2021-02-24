@@ -3,7 +3,7 @@ from flask import Blueprint, request, render_template
 user = Blueprint("user", __name__)
 
 from .modules import Users
-from src import db
+from src666 import db
 
 @user.route("/login",methods=["POST","GET"])
 def user_login():

@@ -1,4 +1,4 @@
-from src1 import db
+from scr777 import db
 
 Base = db.Model # 这句话你是否还记的?
 # from sqlalchemy.ext.declarative import declarative_base
@@ -18,7 +18,7 @@ class Users(Base): # Base实际上就是 db.Model
 
 
 if __name__ == '__main__':
-    from src import create_app
+    from src666 import create_app
     app = create_app()
     # 这里你要回顾一下Flask应该上下文管理了
     # 离线脚本:
