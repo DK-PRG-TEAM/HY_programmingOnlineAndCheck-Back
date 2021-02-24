@@ -1,1 +1,0 @@
-from src666.routes.routes import *
