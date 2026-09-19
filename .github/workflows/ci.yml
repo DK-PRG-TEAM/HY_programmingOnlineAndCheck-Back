@@ -14,6 +14,11 @@
 #     class src/uniti/common/token.py imports, and Werkzeug's routing module
 #     (still used by the pinned Flask 1.1.4) relies on `ast.Str`, which
 #     Python 3.12 removed.
+#   - the test step failed with `ModuleNotFoundError: No module named 'src'`:
+#     there is no tests/__init__.py or pytest config, so pytest's rootdir
+#     import mode adds only the `tests/` directory to sys.path, not the
+#     repository root, and `tests/test_smoke.py` imports `src`. The step now
+#     runs with the repository root on PYTHONPATH.
 name: CI
 
 on:
@@ -76,3 +81,5 @@ jobs:
 
       - name: Test
         run: pytest tests/test_smoke.py -v
+        env:
+          PYTHONPATH: ${{ github.workspace }}
