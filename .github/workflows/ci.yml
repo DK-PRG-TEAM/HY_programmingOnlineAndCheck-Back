@@ -1,11 +1,26 @@
 # Source: GitHub starter workflow "Simple workflow" (MIT) — https://github.com/actions/starter-workflows/blob/main/ci/blank.yml
+#
+# Repaired by repocurator (feature 002):
+#   - `push` and `pull_request` triggered on `main`; this repository's default
+#     branch is `dev`, so the workflow had never run on a push to it.
+#   - the test job ran the starter's placeholder echo, so a green check proved
+#     only that the runner could print a sentence. It now installs the exact
+#     dependency versions the source needs and runs a real smoke test
+#     (tests/test_smoke.py) that imports the app factory and round-trips a
+#     token.
+#   - Python is pinned to 3.11: newer Flask/Werkzeug releases are pulled in by
+#     an unpinned `pip install flask`, but current Flask requires
+#     itsdangerous>=2.2, which removed the TimedJSONWebSignatureSerializer
+#     class src/uniti/common/token.py imports, and Werkzeug's routing module
+#     (still used by the pinned Flask 1.1.4) relies on `ast.Str`, which
+#     Python 3.12 removed.
 name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
   pull_request:
-    branches: [main]
+    branches: [dev]
   workflow_dispatch:
 
 # The workflow token is read-only by default.
@@ -52,7 +67,12 @@ jobs:
         with:
           persist-credentials: false
 
-      # Replace the step below with your project's test command. Pin any setup
-      # action you add to a full commit SHA, like the checkout step above.
-      - name: Run tests
-        run: echo "No tests yet. Replace this step with your project's test command."
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.11'
+
+      - name: Build
+        run: pip install "flask==1.1.4" "itsdangerous==1.1.0" "werkzeug==1.0.1" "jinja2==2.11.3" "markupsafe==1.1.1" "click==7.1.2" "flask-sqlalchemy==2.5.1" "sqlalchemy<2" mysql-connector-python pytest
+
+      - name: Test
+        run: pytest tests/test_smoke.py -v
